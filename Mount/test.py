@@ -30,7 +30,7 @@ scores = interpreter.get_tensor(scores_output_index)
 
 class_names = list(map(lambda line : line.strip(), open('./models/classes.csv').readlines()))
 for i in range(0, len(class_names)):
-    if (scores[0][i] > 0):
+    if (scores[0][i] > 0.5):
         print(f"{scores[0][i]} - {class_names[i]}")
 
 # print(scores)
