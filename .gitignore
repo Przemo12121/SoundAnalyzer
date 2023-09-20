@@ -3,3 +3,7 @@ mount.sh
 Receiver/**/bin/**
 Receiver/**/obj/**
 Receiver/.idea
+
+__pycache__
+
+*.backup
