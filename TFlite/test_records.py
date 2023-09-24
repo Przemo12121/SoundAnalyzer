@@ -28,13 +28,15 @@ def class_names_from_csv(class_map_csv_text):
 
 model = hub.load('https://tfhub.dev/google/yamnet/1')
 class_map_path = model.class_map_path().numpy()
+print(class_map_path)
 class_names = class_names_from_csv(class_map_path)
 
-for i in range(50):
-    data = getData(f"./data/silence/{i+1}.wav")
+for i in range(150, 200):
+    data = getData(f"./data/machine_speach/{i+1}.wav")
     scores, embeddings, spectrogram = model(data)
     scores_np = scores.numpy()
+    # print(scores)
     # spectrogram_np = spectrogram.numpy()
     infered_class = class_names[scores_np.mean(axis=0).argmax()]
+    print(f'./data/silence/{i+1}.wav : sp: {scores[0][2]}, veh: {scores[0][294]}, ra: {scores[0][519]}, rt: {scores[0][322]}')
     print(f'./data/silence/{i+1}.wav : {infered_class}')
-
