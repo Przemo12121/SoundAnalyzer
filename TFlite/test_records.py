@@ -27,12 +27,14 @@ def class_names_from_csv(class_map_csv_text):
   return class_names
 
 model = hub.load('https://tfhub.dev/google/yamnet/1')
+
 class_map_path = model.class_map_path().numpy()
 print(class_map_path)
 class_names = class_names_from_csv(class_map_path)
 
-for i in range(150, 200):
-    data = getData(f"./data/machine_speach/{i+1}.wav")
+for i in range(160, 200):
+    data = getData(f"./data_training/machine_speech/{i+1}.wav")
+    print(data)
     scores, embeddings, spectrogram = model(data)
     scores_np = scores.numpy()
     # print(scores)

@@ -2,7 +2,9 @@ import tensorflow as tf
 
 def getData(path):
     file = tf.io.read_file(path)
-    data = tf.audio.decode_wav(file, desired_channels=1)
+    data, _ = tf.audio.decode_wav(file, desired_channels=1)
+    # if data.shape[0] is not None:
+        # return data.numpy().flatten()
     return data
 
 def getClasses(path: str):
@@ -26,12 +28,15 @@ def readCsv(path: str, delimiter: str):
 
     return rows
 
+xyz = ['silence', 'speech', 'machine']
+
 def splitFilenamesAndLabels(csvData):
     filenames = []
     labels = []
 
     for filename, label in csvData:
         filenames.append(filename)
-        labels.append([int(l) for l in label.split(",")])
+        # labels.append([float(l) for l in label.split(",")])
+        labels.append(label.split(",")) #tm2
     
     return (filenames, labels)
