@@ -1,10 +1,12 @@
 import tensorflow as tf
+import tensorflow_io as tfio
 
 def getData(path):
+    # print(tf.strings.as_string(path).numpy())
     file = tf.io.read_file(path)
+    # print(file)
     data, _ = tf.audio.decode_wav(file, desired_channels=1)
-    # if data.shape[0] is not None:
-        # return data.numpy().flatten()
+
     return data
 
 def getClasses(path: str):
