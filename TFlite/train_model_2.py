@@ -5,14 +5,6 @@ import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
 
 classes = getClasses("classes.csv")
-xyz = tfHub.load("https://tfhub.dev/google/yamnet/1")
-def x(waveData, label):
-    scores, _, _ = xyz(np.zeros(16000))
-    mean = tf.reduce_mean(scores, axis=0)
-    return tf.transpose(mean), label
-
-def wavedata(filename, label):
-    return getData(filename), tf.reshape(label, (1,3))
 
 def prepareDataset(pathToLabels: str):
     filenamesWithLabels = readCsv(pathToLabels, ";")
@@ -23,11 +15,9 @@ def prepareDataset(pathToLabels: str):
     labels_binary = mlb.transform(labels)
 
     dataset = tf.data.Dataset.from_tensor_slices((filenames, labels_binary))
-    dataset = dataset.map(wavedata)
-    # dataset = dataset.map(x)
-    # dataset = dataset.map(
-    #     lambda filename, label : (getData(filename), label), 
-    #     num_parallel_calls=tf.data.AUTOTUNE)
+    dataset = dataset.map(
+        lambda filename, label : (getData(filename), tf.reshape(label, (1,3))), 
+        num_parallel_calls=tf.data.AUTOTUNE)
     
     return dataset
 
@@ -35,8 +25,8 @@ trainingDataset = prepareDataset("labels_training.csv")
 validationDataset = prepareDataset("labels_validation.csv")
 
 def narrowOutput(output):
-    scores = output[0]
-    return scores
+    return output[0]
+
 def averageOutput(output):
     return tf.reduce_mean(output, axis=0)
 
@@ -57,19 +47,23 @@ output = model(outputNarrowed)
 model = tf.keras.Model(baseModelWrapped.input, output)
 model.summary()
 
-# model.compile(
-#     optimizer="adam",
-#     loss="categorical_crossentropy",
-#     metrics=["accuracy"],
-#     run_eagerly=True
-# )
+outputAveraged = averageOutput(model.output)
+output = model(outputAveraged)
+model = tf.keras.Model(model.input, output)
 
-# model.fit(
-#     trainingDataset,
-#     validation_data=validationDataset,
-#     epochs=10,
-#     shuffle=False
-# )
+model.compile(
+    optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=["accuracy"],
+    run_eagerly=True
+)
+
+model.fit(
+    trainingDataset,
+    validation_data=validationDataset,
+    epochs=10,
+    shuffle=False
+)
 
 # x = tf.constant([10, 20, 30, 5, 10, 15], shape=(2,3))
 # print(x)
