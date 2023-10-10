@@ -25,6 +25,8 @@ def prepareDataset(pathToLabels: str):
     mlb.fit(labels)
     labels_binary = mlb.transform(labels)
 
+    print(mlb.classes_)
+
     dataset = tf.data.Dataset.from_tensor_slices((filenames, labels_binary))
     dataset = dataset.map(
         x,
@@ -97,4 +99,4 @@ model.fit(
     # shuffle=True,
     # batch_size=4
 )
-model.save("models/dummy2")
+# model.save("models/dummy2")
