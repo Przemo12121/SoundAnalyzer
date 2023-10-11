@@ -2,8 +2,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import wave, struct, numpy
 
-# model = tfHub.load("./models/dummy2")
-model = tf.saved_model.load("./models/dummy2")
+model = tf.saved_model.load("./models/sound_analyzer_v1")
 pretrained = hub.load("https://tfhub.dev/google/yamnet/1")
 
 def getData(path):
@@ -18,16 +17,10 @@ def getData(path):
     return waveform
 
 def test(filename):
-    file = tf.io.read_file(filename)
-    data, _ = tf.audio.decode_wav(file, desired_channels=1, desired_samples=16000)
-    data = tf.squeeze(data, axis=-1)
-
-    o = pretrained(data)
-
-    result = model(tf.reshape(tf.reduce_mean(o[0], axis=0), (1,521)))
+    result = model(getData(filename))
     print(result)
 
-test("./data_training/silence/16.wav")
+test("./data_training/silence/18.wav")
 test("./data_training/speech/66.wav")
 test("./data_training/machine/146.wav")
-test("./data_training/machine_speech/176.wav")
+test("./data_training/machine_speech/163.wav")
