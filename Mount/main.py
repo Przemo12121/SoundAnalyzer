@@ -20,7 +20,7 @@ def waitForArduinoReadiness(connection: Arduino):
 
 #TODO: read i2c bus number and address from .env 
 arduinoConnection = Arduino(3, 0x04)
-cnn = SoundAnalyser("./models/sound_analyzer_v1.tflite", "./models/classes.csv")
+cnn = SoundAnalyser("./models/test_model.tflite", "./models/classes.csv")
 audioRecorder = Recorder(16000, "hw:3,0")
 classesToNotify = ["speech", "walk"]
 
@@ -35,7 +35,6 @@ while True:
         data = audioRecorder.record(10)
         analysisResult = cnn.analyse(data)
 
-        # TODO: Read detection classes from config, adjust expression
         personDetected = not personDetected and analysisResult in classesToNotify
     
     if personDetected:
