@@ -79,7 +79,7 @@ model.fit(
 model.save(f"models/{modelName}")
 with (
     open(f"models/{modelName}/classes.csv", "w+") as classesFile,
-    open(f"output/classes.csv", "w+") as outputClassesFile
+    open(f"output/{modelName}_classes.csv", "w+") as outputClassesFile
 ):
 
     lines = ["index;label"]

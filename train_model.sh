@@ -1,5 +1,7 @@
-MODEL_NAME = "$1"
+MODEL_NAME="$1"
 
-docker build -t tf_model_training .
+# build image
+docker build -t tf_model_training --build-arg MODEL_NAME=$1 .
 
-docker run -d --name tf_model_training -v ./TFlite:/TfModelTraining tf_model_training -e MODEL_NAME=$MODEL_NAME
+# run container
+docker run -d --name tf_model_training -v ./TFlite:/TfModelTraining tf_model_training
