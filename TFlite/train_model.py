@@ -5,7 +5,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 import sys
 import time
 
-modelName = sys.argv[1] if len(sys.argv) > 1 else f"model_${time.time()}"
+modelName = sys.argv[1] if len(sys.argv) > 1 else f"model_{time.time()}"
 
 # Prepare training and validation datasets
 def prepareDataset(pathToLabels: str):
@@ -23,8 +23,8 @@ def prepareDataset(pathToLabels: str):
     
     return dataset, mlb.classes_
 
-trainingDataset, classes = prepareDataset("data_training/labels_training.csv")
-validationDataset, _ = prepareDataset("data_valdiation/labels_validation.csv")
+trainingDataset, classes = prepareDataset("data/training/labels.csv")
+validationDataset, _ = prepareDataset("data/validation/labels.csv")
 
 # Creates Keras Layer wrapper for tensorflow_hub v1 model
 baseModel = tfHub.KerasLayer(
