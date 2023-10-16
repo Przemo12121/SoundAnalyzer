@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   database:
-    container_name: database
+    container_name: sound_analyzer_database
     image: 'postgres:15-alpine'
     restart: unless-stopped
     environment:
@@ -21,7 +21,7 @@ services:
   application:
     build:
       context: .
-    container_name: application
+    container_name: sound_analyzer_application
     restart: unless-stopped
     depends_on:
       database:

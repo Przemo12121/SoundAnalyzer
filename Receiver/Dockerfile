@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # copy project files 
 WORKDIR Application/src
@@ -9,12 +9,12 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o ../out
 
 # create lightweight container
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/runtime:7.0
 
-WORKDIR /App/out
-COPY --from=build ./App/out .
+# copy built .dll files and environmental variables
+WORKDIR /Application/out
+COPY --from=build ./Application/out .
 ADD .env .
 
-## init container
-EXPOSE $port
-ENTRYPOINT ./entrypoint.sh $devices_db $auth_db $eid $pwd
+# init container
+ENTRYPOINT ["dotnet", "Receiver.dll"]
