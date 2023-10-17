@@ -2,9 +2,12 @@ namespace Receiver.Database.Models;
 
 public class Notification
 {
-    public int DetectableClass { get; init; }
-    public DateTime SentAt { get; init; }
+    public int Id { get; set; }
+    public int DetectableClassIndex { get; }
+    public DetectableClass DetectableClass { get; private set; }
+    public DateTime SentAt { get; }
 
-    public Notification(int detectableClass, DateTime dateTime)
-        => (DetectableClass, SentAt) = (detectableClass, dateTime);
+    
+    public Notification(int detectableClassIndex, DateTime sentAt)
+        => (DetectableClassIndex, SentAt) = (detectableClassIndex, sentAt);
 }

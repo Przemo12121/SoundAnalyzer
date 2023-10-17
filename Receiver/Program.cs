@@ -6,14 +6,12 @@ using Receiver.MessageFormatters.Ttn;
 using Receiver.MessageHandlers;
 using Receiver.Mqtt;
 
-var environmentalVariables = EnvLoader.Load(
-    Path.Combine(Directory.GetCurrentDirectory(), ".env"));
-
+var environment = EnvLoader.Load();
 var dbConnectionString =
-    $"Username={environmentalVariables["DATABASE_USER"]};" +
-    $"Password={environmentalVariables["DATABASE_PASSWORD"]};" +
-    $"Host=localhost:{environmentalVariables["DATABASE_PORT"]};" +
-    $"Database={environmentalVariables["DATABASE_NAME"]}";
+    $"Username={environment["DATABASE_USER"]};" +
+    $"Password={environment["DATABASE_PASSWORD"]};" +
+    $"Host=localhost:{environment["DATABASE_PORT"]};" +
+    $"Database={environment["DATABASE_NAME"]}";
 
 var messageFormatter = new TtnMessageFormatter();
 var dbContext = new SoundAnalyzerDbContext(
@@ -21,19 +19,25 @@ var dbContext = new SoundAnalyzerDbContext(
         .UseNpgsql(dbConnectionString)
     .Options);
 var messageHandler = new SoundAnalyzerMessageHandler(dbContext);
-
 MqttClientWrapper client = new(
-    environmentalVariables["TTN_USERNAME"],
-    environmentalVariables["TTN_PASSWORD"],
-    environmentalVariables["TTN_CLIENT_ID"],
-    environmentalVariables["TTN_URI"], 
-    Convert.ToInt32(environmentalVariables["TTN_PORT"]),
-    environmentalVariables["TTN_SUBSCRIPTION_TOPIC"],
+    environment["TTN_USERNAME"],
+    environment["TTN_PASSWORD"],
+    environment["TTN_CLIENT_ID"],
+    environment["TTN_URI"], 
+    Convert.ToInt32(environment["TTN_PORT"]),
+    environment["TTN_SUBSCRIPTION_TOPIC"],
     eventArgs =>
     {
-        var jsonMessage = eventArgs.ApplicationMessage.ConvertPayloadToString()!;
-        var message = messageFormatter.Format(jsonMessage); 
-        messageHandler.Handle(message);        
+        try
+        {
+            var jsonMessage = eventArgs.ApplicationMessage.ConvertPayloadToString()!;
+            var message = messageFormatter.Format(jsonMessage); 
+            messageHandler.Handle(message);        
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);   
+        }
         
         return Task.CompletedTask;
     });

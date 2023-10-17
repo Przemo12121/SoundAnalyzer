@@ -7,7 +7,7 @@ namespace Receiver.MessageHandlers;
 public partial class SoundAnalyzerMessageHandler
 {
     private readonly SoundAnalyzerDbContext _dbContext;
-
+    
     public SoundAnalyzerMessageHandler(SoundAnalyzerDbContext soundAnalyzerDbContext)
         => _dbContext = soundAnalyzerDbContext;
 
@@ -16,6 +16,7 @@ public partial class SoundAnalyzerMessageHandler
         Verify(message);
         var notifications = ConvertToEntities(message);
         _dbContext.Notifications.AddRange(notifications);
+        _dbContext.SaveChanges();
     }
 
     private static void Verify(string message)
@@ -27,7 +28,7 @@ public partial class SoundAnalyzerMessageHandler
         }
     }
 
-    private static List<Notification> ConvertToEntities(string message)
+    private static IEnumerable<Notification> ConvertToEntities(string message)
     {
         var split = message.Split(':');
         
@@ -40,6 +41,6 @@ public partial class SoundAnalyzerMessageHandler
         return notifications;
     }
 
-    [GeneratedRegex(@"^(\d+(,\d+)?)+:\d+$")]
+    [GeneratedRegex(@"^\d+(,\d+)+:\d+$")]
     private static partial Regex SoundAnalyzerMessageRegex();
 }

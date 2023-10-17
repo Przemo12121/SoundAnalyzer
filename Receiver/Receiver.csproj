@@ -21,10 +21,6 @@
       <None Include="bin\Debug\net7.0\.env" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="bin\Debug\net7.0\" />
-    </ItemGroup>
-
 
 
 </Project>
