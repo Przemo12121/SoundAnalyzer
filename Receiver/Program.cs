@@ -1,21 +1,44 @@
-﻿using MQTTnet;
+﻿using Microsoft.EntityFrameworkCore;
+using MQTTnet;
+using Receiver;
+using Receiver.Database;
 using Receiver.MessageFormatters.Ttn;
+using Receiver.MessageHandlers;
 using Receiver.Mqtt;
 
-var x = new TtnMessageFormatter();
+var environment = EnvLoader.Load();
+var dbConnectionString =
+    $"Username={environment["DATABASE_USER"]};" +
+    $"Password={environment["DATABASE_PASSWORD"]};" +
+    $"Host=localhost:{environment["DATABASE_PORT"]};" +
+    $"Database={environment["DATABASE_NAME"]}";
 
+var messageFormatter = new TtnMessageFormatter();
+var dbContext = new SoundAnalyzerDbContext(
+    new DbContextOptionsBuilder<SoundAnalyzerDbContext>()
+        .UseNpgsql(dbConnectionString)
+    .Options);
+var messageHandler = new SoundAnalyzerMessageHandler(dbContext);
 MqttClientWrapper client = new(
-    "sound-analyzer-eng-degree@ttn",
-    "test",
-    "sound-analyzer-eng-degree",
-    "eu1.cloud.thethings.network", 
-    8883,
-    "v3/+/devices/+/up",
+    environment["TTN_USERNAME"],
+    environment["TTN_PASSWORD"],
+    environment["TTN_CLIENT_ID"],
+    environment["TTN_URI"], 
+    Convert.ToInt32(environment["TTN_PORT"]),
+    environment["TTN_SUBSCRIPTION_TOPIC"],
     eventArgs =>
     {
-        var msg = eventArgs.ApplicationMessage.ConvertPayloadToString();
+        try
+        {
+            var jsonMessage = eventArgs.ApplicationMessage.ConvertPayloadToString()!;
+            var message = messageFormatter.Format(jsonMessage); 
+            messageHandler.Handle(message);        
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);   
+        }
         
-        Console.WriteLine($"Message received: {x.Format(msg)}");
         return Task.CompletedTask;
     });
     
