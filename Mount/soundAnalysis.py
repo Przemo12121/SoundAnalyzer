@@ -5,9 +5,22 @@ import struct
 import time
 import subprocess
 
+def fromCsv(path: str, delimiter: str):
+    mapping = {}
+
+    with open(path, "r") as file:
+        lines = file.readlines()
+        lines.pop(0)
+
+        for row in lines:
+            split = row.strip().split(delimiter)
+            mapping[split[1]] = int(split[0])
+
+    return mapping
+
 class SoundAnalyser:
     def __init__(self, pathToModel: str, pathToClasses: str):
-        self.__classes = list(map(lambda line : line.strip(), open(pathToClasses).readlines()))
+        self.classToIndexMapping = fromCsv(pathToClasses, ";")
         self.__interpreter = tflite.Interpreter(pathToModel)
         self.__waveform_input_index = self.__interpreter.get_input_details()[0]['index']
         self.__scores_output_index = self.__interpreter.get_output_details()[0]['index']
@@ -18,5 +31,10 @@ class SoundAnalyser:
         self.__interpreter.set_tensor(self.__waveform_input_index, data)
         self.__interpreter.invoke()
 
-        scores = self.interpreter.get_tensor(self.__scores_output_index)
-        return self.__classes[scores.mean(axis=0).argmax()]
+        scores = self.__interpreter.get_tensor(self.__scores_output_index)[0]
+
+        result = {}
+        for label, index in self.classToIndexMapping.items():
+            result[label] = scores[index]
+            
+        return result

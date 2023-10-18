@@ -1,42 +1,27 @@
-from arduino import Arduino, Status
+from arduino import Arduino
 from soundAnalysis import SoundAnalyser
 from audio import Recorder
+from setupUtils import waitForArduinoReadiness, checkLabels, getEnvironmentalVariables
 import time
 
-def waitForArduinoReadiness(connection: Arduino):
-    for i in range(10):
-        status = connection.status()
+modelName, notificationClasses, detectionTreshold, samplingTime = getEnvironmentalVariables()
 
-        if status == Status.READY:
-            return
-        elif status == Status.BUSY:
-            time.sleep(1)
-            continue
-        else: # Status.ERROR
-            raise Exception("Arduino responded with error status.")
-
-    raise Exception("Arduino busy for too long.")
-
-
-#TODO: read i2c bus number and address from .env 
 arduinoConnection = Arduino(3, 0x04)
-cnn = SoundAnalyser("./models/test_model.tflite", "./models/classes.csv")
+cnn = SoundAnalyser(f"./models/{modelName}.tflite", f"./models/{modelName}_classes.csv")
 audioRecorder = Recorder(16000, "hw:3,0")
-classesToNotify = ["speech", "walk"]
 
+checkLabels(cnn, notificationClasses)
 waitForArduinoReadiness(arduinoConnection)
 
-#TODO: test
 # run until terminated 
 while True:
     personDetected = False
 
-    for i in range(6):
-        data = audioRecorder.record(10)
-        analysisResult = cnn.analyse(data)
+    data = audioRecorder.record(samplingTime)
+    result = cnn.analyse(data)
+    detectedClasses = list(filter(lambda label: result[label] >= detectionTreshold, notificationClasses))
 
-        personDetected = not personDetected and analysisResult in classesToNotify
-    
-    if personDetected:
+    if (len(detectedClasses) > 0):
         waitForArduinoReadiness(arduinoConnection)
-        arduinoConnection.send(f"speech,{time.time()}")
+        indexes = list(map(lambda label: cnn.classToIndexMapping[label], detectedClasses))
+        arduinoConnection.send(f"{','.join(indexes)}:{round(time.time())}")

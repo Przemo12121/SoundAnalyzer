@@ -4,7 +4,7 @@ import struct
 import subprocess
 
 class Recorder:
-    __file = "temporary.wav"
+    __file = ".temp/temporary.wav"
 
     def __init__(self, frequency: int, deviceName: str):
         self.__deviceName = deviceName
