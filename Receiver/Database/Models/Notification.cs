@@ -7,7 +7,11 @@ public class Notification
     public DetectableClass DetectableClass { get; private set; }
     public DateTime SentAt { get; }
 
+    public Device Device { get; set; }
     
     public Notification(int detectableClassIndex, DateTime sentAt)
         => (DetectableClassIndex, SentAt) = (detectableClassIndex, sentAt);
+    
+    public Notification(int detectableClassIndex, DateTime sentAt, Device device)
+        => (DetectableClassIndex, Device, SentAt) = (detectableClassIndex, device, sentAt);
 }

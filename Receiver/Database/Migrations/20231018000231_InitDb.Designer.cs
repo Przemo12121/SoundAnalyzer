@@ -12,7 +12,7 @@ using Receiver.Database;
 namespace Receiver.Database.Migrations
 {
     [DbContext(typeof(SoundAnalyzerDbContext))]
-    [Migration("20231017153745_InitDb")]
+    [Migration("20231018000231_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -56,6 +56,26 @@ namespace Receiver.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Receiver.Database.Models.Device", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TtnId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TtnId")
+                        .IsUnique();
+
+                    b.ToTable("Devices", (string)null);
+                });
+
             modelBuilder.Entity("Receiver.Database.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -67,12 +87,17 @@ namespace Receiver.Database.Migrations
                     b.Property<int>("DetectableClassIndex")
                         .HasColumnType("integer");
 
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DetectableClassIndex");
+
+                    b.HasIndex("DeviceId");
 
                     b.ToTable("Notifications", (string)null);
                 });
@@ -85,7 +110,20 @@ namespace Receiver.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Receiver.Database.Models.Device", "Device")
+                        .WithMany("Notifications")
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("DetectableClass");
+
+                    b.Navigation("Device");
+                });
+
+            modelBuilder.Entity("Receiver.Database.Models.Device", b =>
+                {
+                    b.Navigation("Notifications");
                 });
 #pragma warning restore 612, 618
         }

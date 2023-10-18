@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Receiver.Database;
 using Receiver.Database.Models;
+using Receiver.MessageFormatters.Ttn;
 
 namespace Receiver.MessageHandlers;
 
@@ -11,31 +12,39 @@ public partial class SoundAnalyzerMessageHandler
     public SoundAnalyzerMessageHandler(SoundAnalyzerDbContext soundAnalyzerDbContext)
         => _dbContext = soundAnalyzerDbContext;
 
-    public void Handle(string message)
+    public void Handle(TtnMessage message)
     {
         Verify(message);
-        var notifications = ConvertToEntities(message);
+
+        var device = _dbContext.Devices.FirstOrDefault(device => device.TtnId.Equals(message.DeviceId));
+        if (device is null)
+        {
+            device = new Device(message.DeviceId);
+            _dbContext.Devices.Add(device);
+        }
+        
+        var notifications = ConvertToNotifications(message.Payload, device);
         _dbContext.Notifications.AddRange(notifications);
         _dbContext.SaveChanges();
     }
 
-    private static void Verify(string message)
+    private static void Verify(TtnMessage message)
     {
-        var match = SoundAnalyzerMessageRegex().Match(message);
+        var match = SoundAnalyzerMessageRegex().Match(message.Payload);
         if (match.Success is false)
         {
             throw new ArgumentException("Receiver message string not matching correct format.");
         }
     }
 
-    private static IEnumerable<Notification> ConvertToEntities(string message)
+    private static List<Notification> ConvertToNotifications(string messagePayload, Device device)
     {
-        var split = message.Split(':');
+        var split = messagePayload.Split(':');
         
         var timestamp = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(split[1]))
             .ToUniversalTime().UtcDateTime;
         var notifications = split[0].Split(',')
-            .Select(str => new Notification(Convert.ToInt32(str), timestamp))
+            .Select(str => new Notification(Convert.ToInt32(str), timestamp, device))
             .ToList();
         
         return notifications;

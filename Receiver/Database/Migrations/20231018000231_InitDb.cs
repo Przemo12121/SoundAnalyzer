@@ -27,13 +27,27 @@ namespace Receiver.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Devices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TtnId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Devices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DetectableClassIndex = table.Column<int>(type: "integer", nullable: false),
-                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeviceId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,6 +57,12 @@ namespace Receiver.Database.Migrations
                         column: x => x.DetectableClassIndex,
                         principalTable: "DetectableClasses",
                         principalColumn: "Index",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notifications_Devices_DeviceId",
+                        column: x => x.DeviceId,
+                        principalTable: "Devices",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -57,9 +77,20 @@ namespace Receiver.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Devices_TtnId",
+                table: "Devices",
+                column: "TtnId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_DetectableClassIndex",
                 table: "Notifications",
                 column: "DetectableClassIndex");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_DeviceId",
+                table: "Notifications",
+                column: "DeviceId");
         }
 
         /// <inheritdoc />
@@ -70,6 +101,9 @@ namespace Receiver.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "DetectableClasses");
+
+            migrationBuilder.DropTable(
+                name: "Devices");
         }
     }
 }

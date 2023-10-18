@@ -10,14 +10,16 @@ var environment = EnvLoader.Load();
 var dbConnectionString =
     $"Username={environment["DATABASE_USER"]};" +
     $"Password={environment["DATABASE_PASSWORD"]};" +
-    $"Host=localhost:{environment["DATABASE_PORT"]};" +
-    $"Database={environment["DATABASE_NAME"]}";
+    $"Host={environment["DATABASE_HOST"]};" +
+    $"Database={environment["DATABASE_NAME"]};";
 
 var messageFormatter = new TtnMessageFormatter();
 var dbContext = new SoundAnalyzerDbContext(
     new DbContextOptionsBuilder<SoundAnalyzerDbContext>()
         .UseNpgsql(dbConnectionString)
     .Options);
+dbContext.Database.Migrate();
+
 var messageHandler = new SoundAnalyzerMessageHandler(dbContext);
 MqttClientWrapper client = new(
     environment["TTN_USERNAME"],
@@ -32,7 +34,7 @@ MqttClientWrapper client = new(
         {
             var jsonMessage = eventArgs.ApplicationMessage.ConvertPayloadToString()!;
             var message = messageFormatter.Format(jsonMessage); 
-            messageHandler.Handle(message);        
+            messageHandler.Handle(message);
         }
         catch (Exception exception)
         {
