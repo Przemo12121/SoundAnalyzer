@@ -2,8 +2,6 @@ import tflite_runtime.interpreter as tflite
 import wave
 import numpy as np
 import struct
-import time
-import subprocess
 
 def fromCsv(path: str, delimiter: str):
     mapping = {}
@@ -33,8 +31,4 @@ class SoundAnalyser:
 
         scores = self.__interpreter.get_tensor(self.__scores_output_index)[0]
 
-        result = {}
-        for label, index in self.classToIndexMapping.items():
-            result[label] = scores[index]
-            
-        return result
+        return { label:scores[index] for (label, index) in self.classToIndexMapping.items() }

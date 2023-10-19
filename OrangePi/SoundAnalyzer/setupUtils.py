@@ -9,7 +9,8 @@ def getEnvironmentalVariables():
     return os.getenv("MODEL_NAME"), \
         os.getenv("NOTIFICATION_CLASSES").split(","), \
         float(os.getenv("DETECTION_TRESHOLD")), \
-        int(os.getenv("AUDIO_SAMPLING_TIME_SECONDS"))
+        int(os.getenv("AUDIO_SAMPLING_TIME_SECONDS")), \
+        int(os.getenv("AUDIO_SAMPLING_CHUNK")) 
 
 def waitForArduinoReadiness(connection: Arduino):
     for _ in range(10):
