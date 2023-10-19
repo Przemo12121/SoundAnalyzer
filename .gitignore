@@ -1,4 +1,5 @@
-mount.sh
+# OrangePi/.*
+
 
 Receiver/**/bin/**
 Receiver/**/obj/**
