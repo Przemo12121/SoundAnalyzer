@@ -1,6 +1,5 @@
 OrangePi/.*
 
-
 Receiver/**/bin/**
 Receiver/**/obj/**
 Receiver/.idea
@@ -9,4 +8,4 @@ Receiver/.idea
 __pycache__
 
 *.backup
-*.env
+# *.env
