@@ -1,1 +1,1 @@
-sshfs root@orangepizero2:/root ./OrangePi/
+sshfs root@orangepizero2:/root ./OrangePi_mounted/

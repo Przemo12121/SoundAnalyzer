@@ -10,7 +10,7 @@ else
     echo "Model already exists"
 fi
 
-cp "./TFlite/output/${MODEL_NAME}.tflite" "./OrangePi_backup/SoundAnalyzer/models/${MODEL_NAME}.tflite"
-cp "./TFlite/output/$CLASSES_FILE_NAME" "./OrangePi_backup/SoundAnalyzer/models/$CLASSES_FILE_NAME"
+cp "./TFlite/output/${MODEL_NAME}.tflite" "./OrangePi/SoundAnalyzer/models/${MODEL_NAME}.tflite"
+cp "./TFlite/output/$CLASSES_FILE_NAME" "./OrangePi/SoundAnalyzer/models/$CLASSES_FILE_NAME"
 
 # TODO: ssh, Mount orange pi
