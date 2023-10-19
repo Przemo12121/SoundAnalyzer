@@ -8,4 +8,4 @@ Receiver/.idea
 __pycache__
 
 *.backup
-*.env
+Receiver/.env
