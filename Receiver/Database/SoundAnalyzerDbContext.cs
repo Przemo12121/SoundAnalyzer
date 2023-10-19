@@ -7,11 +7,23 @@ public class SoundAnalyzerDbContext : DbContext
 {
     public DbSet<DetectableClass> DetectableClasses { get; set; } = null!;
     public DbSet<Notification> Notifications { get; set; } = null!;
+    public DbSet<Device> Devices { get; set; } = null!;
     
     public SoundAnalyzerDbContext(DbContextOptions<SoundAnalyzerDbContext> dbContextOptions) : base(dbContextOptions) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Device>(model =>
+        {
+            model.ToTable("Devices");
+
+            model.Property(device => device.TtnId)
+                .IsRequired();
+
+            model.HasIndex(device => device.TtnId)
+                .IsUnique();
+        });
+        
         modelBuilder.Entity<Notification>(model =>
         {
             model.ToTable("Notifications");
@@ -37,7 +49,8 @@ public class SoundAnalyzerDbContext : DbContext
 
             model.HasMany<Notification>()
                 .WithOne(notification => notification.DetectableClass)
-                .HasForeignKey(notification => notification.DetectableClassIndex);
+                .HasForeignKey(notification => notification.DetectableClassIndex)
+                .IsRequired();
         });
 
         Seed(modelBuilder, new [] { "machine", "silence", "speech" });

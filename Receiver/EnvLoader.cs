@@ -9,7 +9,8 @@ public static class EnvLoader
         return File.ReadAllLines(envPath)
             .Select(line => line.Trim())
             .Where(line => line.Length > 0)
-            .Where(line => line.First() != '#').Select(line => line.Split('='))
+            .Where(line => line.First() != '#')
+            .Select(line => line.Split('=', 2))
             .ToDictionary(str => str[0], str => str[1]);
     }
 }

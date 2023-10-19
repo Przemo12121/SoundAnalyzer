@@ -3,13 +3,14 @@ using System.Text.Json;
 
 namespace Receiver.MessageFormatters.Ttn;
 
-public class TtnMessageFormatter : IMessageFormatter<string>
+public class TtnMessageFormatter : IMessageFormatter<TtnMessage>
 {
-    public string Format(string message)
+    public TtnMessage Format(string message)
     {
-        var str = JsonSerializer.Deserialize<TtnMessage>(message)!
-            .uplink_message.frm_payload;
+        var deserialized = JsonSerializer.Deserialize<InternalTtnMessage>(message)!;
+        var payload = Encoding.UTF8.GetString(Convert.FromBase64String(deserialized.uplink_message.frm_payload));
+        var deviceId = deserialized.end_device_ids.device_id;
 
-        return Encoding.UTF8.GetString(Convert.FromBase64String(str));
+        return new(deviceId, payload);
     }
 }

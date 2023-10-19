@@ -15,8 +15,8 @@ file class SoundAnalyzerDbContextFactory : IDesignTimeDbContextFactory<SoundAnal
         _connectionString =
             $"Username={environment["DATABASE_USER"]};" +
             $"Password={environment["DATABASE_PASSWORD"]};" +
-            $"Host=localhost:{environment["DATABASE_PORT"]};" +
-            $"Database={environment["DATABASE_NAME"]}";
+            $"Host={environment["DATABASE_HOST"]};" +
+            $"Database={environment["DATABASE_NAME"]};";
     } 
 
     public SoundAnalyzerDbContext CreateDbContext(string[] args)
