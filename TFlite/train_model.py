@@ -38,9 +38,12 @@ baseModelWrapped = tf.keras.Model(input, net)
 # Creates custom multi-label classification output layers
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(521,)),
+    tf.keras.layers.Dense(512, activation="relu"),
+    tf.keras.layers.Dense(256, activation="relu"),
+    tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(64, activation="relu"),
     tf.keras.layers.Dense(32, activation="relu"),
-    tf.keras.layers.Dense(3, activation="softmax"),
+    tf.keras.layers.Dense(3, activation="sigmoid"),
 ])
 
 # Merges model into single model
@@ -56,20 +59,20 @@ model = tf.keras.Model(baseModelWrapped.input, output)
 
 # Model compilation and training
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(),
-    loss=tf.keras.losses.CategoricalCrossentropy(),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
+    loss=tf.keras.losses.BinaryCrossentropy(),
     metrics=["accuracy"],
 )
 
 model.fit(
     trainingDataset,
     validation_data=validationDataset,
-    epochs=20,
+    epochs=50,
     callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
         monitor="val_loss",
         factor=0.1,
         patience=5,
-        min_lr=0.0001
+        min_lr=1e-10
     )],
     shuffle=True,
     batch_size=16

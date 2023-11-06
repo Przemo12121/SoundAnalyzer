@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import wave, struct, numpy
 
-model = tf.saved_model.load("./models/sound_analyzer_v1")
+model = tf.saved_model.load("./models/sound_analyzer_v7")
 pretrained = hub.load("https://tfhub.dev/google/yamnet/1")
 
 def getData(path):
@@ -20,7 +20,7 @@ def test(filename):
     result = model(getData(filename))
     print(result)
 
-test("./data_training/silence/18.wav")
-test("./data_training/speech/66.wav")
-test("./data_training/machine/146.wav")
-test("./data_training/machine_speech/163.wav")
+test("./data/training/silence/18.wav")
+test("./data/training/speech/66.wav")
+test("./data/training/machine/146.wav")
+test("./data/training/machine_speech/163.wav")

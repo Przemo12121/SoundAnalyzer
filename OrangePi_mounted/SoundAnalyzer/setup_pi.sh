@@ -14,6 +14,5 @@ fi
 # other required python packages
 sudo apt-get -y install python3-pyaudio
 python3 -m pip install python-dotenv
-python3 -m pip install pydub
 
 echo "Setup complete, reboot device using command 'reboot'"

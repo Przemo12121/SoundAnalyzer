@@ -2,7 +2,6 @@ import wave
 import numpy as np
 import struct
 import subprocess
-from pydub import AudioSegment
 
 class Recorder:
     __file = ".temp.wav"
@@ -14,9 +13,12 @@ class Recorder:
     def record(self, duration: int):
         subprocess.run(f"arecord -D {self.__deviceName} -d {duration} -f s16_le -r {self.__frequency} -t wav -c 1 {self.__file}", shell=True)
 
-        data = AudioSegment.from_file(self.__file, format='wav', frame_rate=44100)
+        wave_data = wave.open(self.__file, "rb")
+        frames_count = wave_data.getnframes()
+        data = struct.unpack("<" + str(frames_count) + "h", wave_data.readframes(frames_count))
+        waveform = np.zeros(len(data), dtype="float32")
+       
+        for i in range(0, len(data)):
+            waveform[i] = data[i] / 32767
 
-        # audio preprocessing - resample to 16kHz and normalize values between [-1.0, 1.0]
-        data = data.set_frame_rate(16000)
-        data = data.get_array_of_samples()
-        return np.array(data).astype(np.float32) / 32767
+        return waveform
