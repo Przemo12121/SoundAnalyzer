@@ -53,7 +53,7 @@ public class SoundAnalyzerDbContext : DbContext
                 .IsRequired();
         });
 
-        Seed(modelBuilder, new [] { "machine", "silence", "speech" });
+        Seed(modelBuilder, new [] { "clapping", "machine", "silence", "speech", "whistling" });
     }
 
     private static void Seed(ModelBuilder modelBuilder, IEnumerable<string> labels)

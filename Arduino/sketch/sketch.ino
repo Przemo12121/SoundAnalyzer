@@ -4,7 +4,6 @@
 #include <SPI.h>
 
 #define I2C_ADDRESS 0x04
-#define MICROPHONE_PIN 0
 
 // lorawan setup
 // appEUI from TTN reversed
@@ -84,7 +83,6 @@ void sendMessage(osjob_t* j, uint8_t* data, int dataLength){
     
     // Prepare upstream data transmission at the next possible time.
     LMIC_setTxData2(1, data, dataLength, 0);
-    Serial.println(F("Packet queued"));
 }
 
 void setup() {
@@ -104,7 +102,6 @@ void setup() {
 
 void loop() {
   os_runloop_once();
-  // max9814 putputs data in range 0-530 with bias at aproximetely 265
 }
 
 

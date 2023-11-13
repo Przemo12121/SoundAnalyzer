@@ -4,6 +4,8 @@ from utils import readCsv, getData, splitFilenamesAndLabels
 from sklearn.preprocessing import MultiLabelBinarizer
 import sys
 import time
+import json
+import os
 
 modelName = sys.argv[1] if len(sys.argv) > 1 else f"model_{time.time()}"
 
@@ -18,7 +20,7 @@ def prepareDataset(pathToLabels: str):
 
     dataset = tf.data.Dataset.from_tensor_slices((filenames, labels_binary))
     dataset = dataset.map(
-        lambda filename, label : (getData(filename), tf.reshape(label, (1,3))), 
+        lambda filename, label : (getData(filename), tf.reshape(label, (1,5))), 
         num_parallel_calls=tf.data.AUTOTUNE)
     
     return dataset, mlb.classes_
@@ -30,7 +32,7 @@ validationDataset, _ = prepareDataset("data/validation/labels.csv")
 baseModel = tfHub.KerasLayer(
     "https://tfhub.dev/google/yamnet/1",
     input_shape=(),
-    trainable=False)
+    trainable=True)
 input = tf.keras.layers.Input(shape=(), name="Input", dtype=tf.float32)
 net = baseModel(input)
 baseModelWrapped = tf.keras.Model(input, net)
@@ -38,14 +40,15 @@ baseModelWrapped = tf.keras.Model(input, net)
 # Creates custom multi-label classification output layers
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(521,)),
-    tf.keras.layers.Dense(512, activation="relu"),
+    # tf.keras.layers.Dense(512, activation="relu"),
     tf.keras.layers.Dense(256, activation="relu"),
-    tf.keras.layers.Dense(128, activation="relu"),
+    tf.keras.layers.Dropout(0.8),
+    # tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(64, activation="relu"),
-    tf.keras.layers.Dense(32, activation="relu"),
-    tf.keras.layers.Dense(3, activation="sigmoid"),
+    tf.keras.layers.Dropout(0.8),
+    # tf.keras.layers.Dense(32, activation="relu"),
+    tf.keras.layers.Dense(5, activation="sigmoid"),
 ])
-
 # Merges model into single model
 def narrowOutput(output):
     return tf.reshape(tf.reduce_mean(output[0], axis=0), (1,521))
@@ -55,19 +58,19 @@ outputNarrowed = tf.reshape(
     (1,521))
 output = model(outputNarrowed)
 model = tf.keras.Model(baseModelWrapped.input, output)
-# model.summary()
+model.summary()
 
 # Model compilation and training
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
     loss=tf.keras.losses.BinaryCrossentropy(),
     metrics=["accuracy"],
 )
 
-model.fit(
+history = model.fit(
     trainingDataset,
     validation_data=validationDataset,
-    epochs=50,
+    epochs=60,
     callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
         monitor="val_loss",
         factor=0.1,
@@ -75,14 +78,16 @@ model.fit(
         min_lr=1e-10
     )],
     shuffle=True,
-    batch_size=16
+    batch_size=4
 )
+history.history.pop("lr")
 
-# Saves tensorflow model and classes
+# # Saves tensorflow model and classes
 model.save(f"models/{modelName}")
 with (
     open(f"models/{modelName}/classes.csv", "w+") as classesFile,
-    open(f"output/{modelName}_classes.csv", "w+") as outputClassesFile
+    open(f"output/{modelName}_classes.csv", "w+") as outputClassesFile,
+    open(f"models/{modelName}/history.json", "w+") as historyFile
 ):
 
     lines = ["index;label"]
@@ -91,6 +96,7 @@ with (
         lines.append(f"{index};{classes[index]}")
 
     lines = "\n".join(lines)
+    json.dump(history.history, historyFile)
     classesFile.write(lines)
     outputClassesFile.write(lines)
 
