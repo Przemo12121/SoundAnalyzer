@@ -22,7 +22,7 @@ dbContext.Database.Migrate();
 
 var messageHandler = new SoundAnalyzerMessageHandler(dbContext);
 MqttClientWrapper client = new(
-    environment["TTN_USERNAME"],
+    $"{environment["TTN_USERNAME"]}@ttn",
     environment["TTN_PASSWORD"],
     environment["TTN_CLIENT_ID"],
     environment["TTN_URI"], 

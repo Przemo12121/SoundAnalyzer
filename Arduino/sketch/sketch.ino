@@ -6,15 +6,15 @@
 #define I2C_ADDRESS 0x04
 
 // lorawan setup
-// appEUI from TTN reversed
+// appEUI (bytes) from TTN reversed
 static const u1_t PROGMEM APPEUI[8]={ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 void os_getArtEui (u1_t* buf) { memcpy_P(buf, APPEUI, 8); }
 
-// devEUI from TTN reversed
+// devEUI (bytes) from TTN reversed
 static const u1_t PROGMEM DEVEUI[8]={ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 void os_getDevEui (u1_t* buf) { memcpy_P(buf, DEVEUI, 8); }
 
-// appKey from TTN
+// appKey (bytes) from TTN
 static const u1_t PROGMEM APPKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 void os_getDevKey (u1_t* buf) { memcpy_P(buf, APPKEY, 16); }
 static osjob_t sendjob;
@@ -92,9 +92,9 @@ void setup() {
   Wire.onRequest(sendState);
   
   // LMIC init
-//  os_init();
+  os_init();
   // Reset the MAC state. Session and pending data transfers will be discarded.
-//  LMIC_reset();
+  LMIC_reset();
 
   state = 0;
 }
@@ -114,7 +114,7 @@ void receiveMessage(int byteCount){
   }
 
   state = 1;
-//  sendMessage(&sendjob, message, byteCount);
+  sendMessage(&sendjob, message, byteCount);
 }
 
 // callback for sending data

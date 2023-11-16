@@ -3,12 +3,16 @@ from soundAnalysis import SoundAnalyser
 from audio import Recorder
 from setupUtils import waitForArduinoReadiness, checkLabels, getEnvironmentalVariables
 import time
+import numpy
+import time
+import os
 
-modelName, notificationClasses, detectionTreshold, samplingTime, samplingChunk = getEnvironmentalVariables()
+modelName, notificationClasses, detectionTreshold, \
+    samplingTime, samplingChunk, recordingFrequency = getEnvironmentalVariables()
 
 arduinoConnection = Arduino(3, 0x04)
 cnn = SoundAnalyser(f"/root/SoundAnalyzer/models/{modelName}.tflite", f"/root/SoundAnalyzer/models/{modelName}_classes.csv")
-audioRecorder = Recorder(16000, "hw:3,0")
+audioRecorder = Recorder(recordingFrequency, "hw:3,0")
 
 checkLabels(cnn, notificationClasses)
 waitForArduinoReadiness(arduinoConnection)
@@ -19,18 +23,27 @@ while True:
 
     # analyse data from requested sampling chunks with requested sampling time per chunk 
     for _ in range(samplingChunk):
-        data = audioRecorder.record(samplingTime)
-        result = cnn.analyse(data)
+        data  = audioRecorder.record(samplingTime)
+        result= cnn.analyse(data)
 
         # pick maximum values
         for label in notificationClasses:
             resultsOverChunks[label] = max(resultsOverChunks[label], result[label])            
 
     # filter results based on requested detection treshold
-    detectedClasses = list(filter(lambda label: resultsOverChunks[label] >= detectionTreshold, notificationClasses))
+    detectedClasses = list(
+        filter(
+            lambda label: resultsOverChunks[label] >= 0.01, 
+            # lambda label: resultsOverChunks[label] >= detectionTreshold, 
+            notificationClasses))
 
     # notify
-    if (len(detectedClasses) > 0):
+    if (len(detectedClasses) > 0 or "a" == "a"):
         waitForArduinoReadiness(arduinoConnection)
-        indexes = list(map(lambda label: str(cnn.classToIndexMapping[label]), detectedClasses))
+        
+        indexes = list(
+            map(
+                lambda label: str(cnn.classToIndexMapping[label]), 
+                detectedClasses))
+
         arduinoConnection.send(f"{','.join(indexes)}:{round(time.time())}")
