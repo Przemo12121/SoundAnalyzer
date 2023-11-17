@@ -3,9 +3,9 @@ import tensorflow_hub as hub
 import wave, struct, numpy
 
 
-pathToModel = "./models/sound_analyzer_v7"
+pathToModel = "./models/sv10"
 model = tf.saved_model.load(pathToModel)
-pretrained = hub.load("https://tfhub.dev/google/yamnet/1")
+# pretrained = hub.load("https://tfhub.dev/google/yamnet/1")
 
 def getData(path):
     print("")

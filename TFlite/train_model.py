@@ -5,9 +5,9 @@ from sklearn.preprocessing import MultiLabelBinarizer
 import sys
 import time
 import json
-import os
 
 modelName = sys.argv[1] if len(sys.argv) > 1 else f"model_{time.time()}"
+labelsCount = 4
 
 # Prepare training and validation datasets
 def prepareDataset(pathToLabels: str):
@@ -20,7 +20,7 @@ def prepareDataset(pathToLabels: str):
 
     dataset = tf.data.Dataset.from_tensor_slices((filenames, labels_binary))
     dataset = dataset.map(
-        lambda filename, label : (getData(filename), tf.reshape(label, (1,5))), 
+        lambda filename, label : (getData(filename), tf.reshape(label, (1,labelsCount))), 
         num_parallel_calls=tf.data.AUTOTUNE)
     
     return dataset, mlb.classes_
@@ -40,14 +40,9 @@ baseModelWrapped = tf.keras.Model(input, net)
 # Creates custom multi-label classification output layers
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(521,)),
-    # tf.keras.layers.Dense(512, activation="relu"),
     tf.keras.layers.Dense(256, activation="relu"),
-    tf.keras.layers.Dropout(0.8),
-    # tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(64, activation="relu"),
-    tf.keras.layers.Dropout(0.8),
-    # tf.keras.layers.Dense(32, activation="relu"),
-    tf.keras.layers.Dense(5, activation="sigmoid"),
+    tf.keras.layers.Dense(labelsCount, activation="sigmoid"),
 ])
 # Merges model into single model
 def narrowOutput(output):
