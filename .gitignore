@@ -6,6 +6,7 @@ Receiver/**/obj/**
 Receiver/.idea
 **/**/*.wav
 **/**/*.pyc
+**/**/.vscode
 
 __pycache__
 

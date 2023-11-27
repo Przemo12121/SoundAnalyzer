@@ -7,7 +7,7 @@ import time
 import json
 
 modelName = sys.argv[1] if len(sys.argv) > 1 else f"model_{time.time()}"
-labelsCount = 4
+labelsCount = 5
 
 # Prepare training and validation datasets
 def prepareDataset(pathToLabels: str):
@@ -49,13 +49,16 @@ def narrowOutput(output):
     return tf.reshape(tf.reduce_mean(output[0], axis=0), (1,521))
 
 outputNarrowed = tf.reshape(
-    tf.reduce_mean(baseModelWrapped.output[0], axis=0),
+    tf.reduce_max(baseModelWrapped.output[0], axis=0),
     (1,521))
 output = model(outputNarrowed)
 model = tf.keras.Model(baseModelWrapped.input, output)
 model.summary()
 
-# Model compilation and training
+# print(len(trainingDataset))
+# print(len(validationDataset))
+
+# # Model compilation and training
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
     loss=tf.keras.losses.BinaryCrossentropy(),
@@ -73,7 +76,7 @@ history = model.fit(
         min_lr=1e-10
     )],
     shuffle=True,
-    batch_size=4
+    batch_size=1
 )
 history.history.pop("lr")
 

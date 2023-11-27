@@ -3,7 +3,7 @@ import tensorflow_hub as hub
 import wave, struct, numpy
 
 
-pathToModel = "./models/sv10"
+pathToModel = "./models/sv12"
 model = tf.saved_model.load(pathToModel)
 # pretrained = hub.load("https://tfhub.dev/google/yamnet/1")
 

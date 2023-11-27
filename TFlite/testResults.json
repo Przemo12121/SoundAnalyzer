@@ -1,0 +1,162 @@
+{
+    "5": {
+        "clapping": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "machine": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "silence": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "speech": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "whistling": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        }
+    },
+    "10": {
+        "clapping": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "machine": {
+            "occurences": 1,
+            "falsePositives": 0,
+            "successes": 1,
+            "misstakes": 0
+        },
+        "silence": {
+            "occurences": 2,
+            "falsePositives": 0,
+            "successes": 2,
+            "misstakes": 0
+        },
+        "speech": {
+            "occurences": 2,
+            "falsePositives": 0,
+            "successes": 2,
+            "misstakes": 0
+        },
+        "whistling": {
+            "occurences": 1,
+            "falsePositives": 0,
+            "successes": 1,
+            "misstakes": 0
+        }
+    },
+    "15": {
+        "clapping": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "machine": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "silence": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "speech": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "whistling": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        }
+    },
+    "20": {
+        "clapping": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "machine": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "silence": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "speech": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "whistling": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        }
+    },
+    "25": {
+        "clapping": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "machine": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "silence": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "speech": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        },
+        "whistling": {
+            "occurences": 0,
+            "falsePositives": 0,
+            "successes": 0,
+            "misstakes": 0
+        }
+    }
+}
