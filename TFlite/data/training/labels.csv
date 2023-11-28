@@ -487,3 +487,36 @@ file;labels
 ./data/training/machine_clapping/577.wav;clapping,machine
 ./data/training/machine_clapping/579.wav;clapping,machine
 ./data/training/machine_clapping/580.wav;clapping,machine
+./data/training/mixed/sil_sp_cp_wh2.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh3.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh4.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh5.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh6.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh7.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh8.wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh9.wav;silence,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh2.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh3.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh4.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh5.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh6.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh7.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh8.wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh9.wav;machine,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh2 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh3 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh4 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh5 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh6 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh7 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh8 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh9 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh2 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh3 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh4 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh5 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh6 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh7 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh8 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/mch_sp_cp_wh9 (copy).wav;machine,speech,clapping,whistling
+./data/training/mixed/sil_sp_cp_wh2 (copy).wav;silence,speech,clapping,whistling

@@ -41,7 +41,9 @@ baseModelWrapped = tf.keras.Model(input, net)
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(521,)),
     tf.keras.layers.Dense(256, activation="relu"),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(64, activation="relu"),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(labelsCount, activation="sigmoid"),
 ])
 # Merges model into single model
@@ -60,7 +62,7 @@ model.summary()
 
 # # Model compilation and training
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    optimizer=tf.keras.optimizers.Adam(),
     loss=tf.keras.losses.BinaryCrossentropy(),
     metrics=["accuracy"],
 )
@@ -68,17 +70,18 @@ model.compile(
 history = model.fit(
     trainingDataset,
     validation_data=validationDataset,
-    epochs=60,
-    callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
-        monitor="val_loss",
-        factor=0.1,
-        patience=5,
-        min_lr=1e-10
-    )],
+    epochs=100,
+    # callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
+    #     monitor="val_loss",
+    #     factor=0.1,
+    #     patience=5,
+    #     min_lr=1e-10
+    # )],
     shuffle=True,
     batch_size=1
 )
-history.history.pop("lr")
+if "lr" in history.history:
+    history.history.pop("lr")
 
 # # Saves tensorflow model and classes
 model.save(f"models/{modelName}")

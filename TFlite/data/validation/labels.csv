@@ -132,3 +132,11 @@ file;labels
 ./data/validation/machine_clapping/571.wav;clapping,machine
 ./data/validation/machine_clapping/576.wav;clapping,machine
 ./data/validation/machine_clapping/578.wav;clapping,machine
+./data/validation/mixed/sil_sp_cp_wh1.wav;silence,speech,clapping,whistling
+./data/validation/mixed/sil_sp_cp_wh10.wav;silence,speech,clapping,whistling
+./data/validation/mixed/mch_sp_cp_wh1.wav;machine,speech,clapping,whistling
+./data/validation/mixed/mch_sp_cp_wh10.wav;machine,speech,clapping,whistling
+./data/validation/mixed/sil_sp_cp_wh1 (copy).wav;silence,speech,clapping,whistling
+./data/validation/mixed/sil_sp_cp_wh10 (copy).wav;silence,speech,clapping,whistling
+./data/validation/mixed/mch_sp_cp_wh1 (copy).wav;machine,speech,clapping,whistling
+./data/validation/mixed/mch_sp_cp_wh10 (copy).wav;machine,speech,clapping,whistling

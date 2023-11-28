@@ -3,7 +3,7 @@ import tensorflow_hub as hub
 import wave, struct, numpy
 
 
-pathToModel = "./models/sv11"
+pathToModel = "./models/sound_analyzer_v3"
 model = tf.saved_model.load(pathToModel)
 import json
 
@@ -60,21 +60,107 @@ def test(ds):
         path = set[0]
         targets = set[1]
         
-        data, _ = getData(path)
-        duration = 10
+        data, duration = getData(path)
+        # duration = 10
 
         output = enumerate(model(data).numpy()[0])
         analyze(output, duration, targets)  
 
-test([
-    ["w_short.wav", ["whistling", "silence"]],
-    ["speech_silence.wav", ["speech", "silence"]],
-    ["m_s_short.wav", ["speech", "machine"]],
-])
+# test([
+# #     ["testDs/5_sil_sp.wav", ["speech", "silence"]],
+# #     ["testDs/10_sil_sp.wav", ["speech", "silence"]],
+# #     ["testDs/15_sil_sp.wav", ["speech", "silence"]],
+# #     ["testDs/20_sil_sp.wav", ["speech", "silence"]],
+# #     ["testDs/25_sil_sp.wav", ["speech", "silence"]],
+# #     ["testDs/5_sil_sp2.wav", ["speech", "silence"]],
+# #     ["testDs/10_sil_sp2.wav", ["speech", "silence"]],
+# #     ["testDs/15_sil_sp2.wav", ["speech", "silence"]],
+# #     ["testDs/20_sil_sp2.wav", ["speech", "silence"]],
+# #     ["testDs/25_sil_sp2.wav", ["speech", "silence"]],
+# #     ["testDs/5_sil_sp3.wav", ["speech", "silence"]],
+# #     ["testDs/10_sil_sp3.wav", ["speech", "silence"]],
+# #     ["testDs/15_sil_sp3.wav", ["speech", "silence"]],
+# #     ["testDs/20_sil_sp3.wav", ["speech", "silence"]],
+# #     ["testDs/25_sil_sp3.wav", ["speech", "silence"]],
+# #     ["testDs/5_sp.wav", ["speech"]],
+# #     ["testDs/10_sp.wav", ["speech"]],
+# #     ["testDs/15_sp.wav", ["speech"]],
+# #     ["testDs/20_sp.wav", ["speech"]],
+# #     ["testDs/25_sp.wav", ["speech"]],
+# #     ["testDs/25_sp.wav", ["speech"]],
+# #     ["testDs/5_sil_wh.wav", ["whistling", "silence"]],
+# #     ["testDs/10_sil_wh.wav", ["whistling", "silence"]],
+# #     ["testDs/15_sil_wh.wav", ["whistling", "silence"]],
+# #     ["testDs/20_sil_wh.wav", ["whistling", "silence"]],
+# #     ["testDs/25_sil_wh.wav", ["whistling", "silence"]],
+# #     ["testDs/5_wh.wav", ["whistling"]], 
+# #     ["testDs/10_wh.wav", ["whistling"]],
+# #     ["testDs/15_wh.wav", ["whistling"]],
+# #     ["testDs/20_wh.wav", ["whistling"]],
+# #     ["testDs/25_wh.wav", ["whistling"]],
+# #     ["testDs/5_sil_wh2.wav", ["whistling", "silence"]],
+# #     ["testDs/10_sil_wh2.wav", ["whistling", "silence"]],
+# #     ["testDs/15_sil_wh2.wav", ["whistling", "silence"]],
+# #     ["testDs/20_sil_wh2.wav", ["whistling", "silence"]],
+# #     ["testDs/25_sil_wh2.wav", ["whistling", "silence"]],
+# #     ["testDs/5_sil_cp.wav", ["clapping", "silence"]],
+# #     ["testDs/10_sil_cp.wav", ["clapping", "silence"]],
+# #     ["testDs/15_sil_cp.wav", ["clapping", "silence"]],
+# #     ["testDs/20_sil_cp.wav", ["clapping", "silence"]],
+# #     ["testDs/25_sil_cp.wav", ["clapping", "silence"]],
+# #     ["testDs/5_sil_cp2.wav", ["clapping", "silence"]],
+# #     ["testDs/10_sil_cp2.wav", ["clapping", "silence"]],
+# #     ["testDs/15_sil_cp2.wav", ["clapping", "silence"]],
+# #     ["testDs/20_sil_cp2.wav", ["clapping", "silence"]],
+# #     ["testDs/25_sil_cp2.wav", ["clapping", "silence"]],
+# #     ["testDs/5_sil_cp3.wav", ["clapping", "silence"]],
+# #     ["testDs/10_sil_cp3.wav", ["clapping", "silence"]],
+# #     ["testDs/15_sil_cp3.wav", ["clapping", "silence"]],
+# #     ["testDs/20_sil_cp3.wav", ["clapping", "silence"]],
+# #     ["testDs/25_sil_cp3.wav", ["clapping", "silence"]],
+# #     ["testDs/5_mch_sp.wav", ["speech", "machine"]],
+# #     ["testDs/10_mch_sp.wav", ["speech", "machine"]],
+# #     ["testDs/15_mch_sp.wav", ["speech", "machine"]],
+# #     ["testDs/20_mch_sp.wav", ["speech", "machine"]],
+# #     ["testDs/25_mch_sp.wav", ["speech", "machine"]],
+# #     ["testDs/5_mch_cp.wav", ["clapping", "machine"]],
+# #     ["testDs/10_mch_cp.wav", ["clapping", "machine"]],
+# #     ["testDs/15_mch_cp.wav", ["clapping", "machine"]],
+# #     ["testDs/20_mch_cp.wav", ["clapping", "machine"]],
+# #     ["testDs/25_mch_cp.wav", ["clapping", "machine"]],
+# #     ["testDs/5_mch_wh.wav", ["whistling", "machine"]],
+# #     ["testDs/10_mch_wh.wav", ["whistling", "machine"]],
+# #     ["testDs/15_mch_wh.wav", ["whistling", "machine"]],
+# #     ["testDs/20_mch_wh.wav", ["whistling", "machine"]],
+# #     ["testDs/25_mch_wh.wav", ["whistling", "machine"]],
+# #     ["testDs/5_sil_sp_cp_wh.wav", ["silence", "speech",  "whistling", "clapping"]],
+# #     ["testDs/10_sil_sp_cp_wh.wav", ["silence", "speech",  "whistling", "clapping"]],
+# #     ["testDs/15_sil_sp_cp_wh.wav", ["silence", "speech",  "whistling", "clapping"]],
+# #     ["testDs/20_sil_sp_cp_wh.wav", ["silence", "speech",  "whistling", "clapping"]],
+# #     ["testDs/25_sil_sp_cp_wh.wav", ["silence", "speech",  "whistling", "clapping"]],
+# #     ["testDs/5_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
+# #     ["testDs/10_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
+# #     ["testDs/15_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
+# #     ["testDs/20_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
+# #     ["testDs/25_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
+# # ])
+data, _ = getData("testDs/10_sil_sp_cp_wh.wav")
+print(model(data))
 
+# with open("testResults.json", "w+") as file:
+#     json.dump(results, file)
+
+# occ_r_a = 0
+# s_r_a = 0
 # for d in durations:
-#     dataset = 
+#     print("### ", d, " ###")
+#     for l in labels:
+#         if l == "silence":
+#             continue
+#         occ_r = results[d][l][occ]
+#         s_r = results[d][l][succ]
+#         print("-> ", l, ": ", s_r / float(occ_r))
+#         occ_r_a += occ_r
+#         s_r_a += s_r
 
-# print(results)
-with open("testResults.json", "w+") as file:
-    json.dump(results, file)
+# print(s_r_a / float(occ_r_a))
