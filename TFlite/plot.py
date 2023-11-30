@@ -10,45 +10,84 @@ modelName = "sv11"
 model = tf.saved_model.load(f"./models/{modelName}")
 freq = 16000
 
-def plotData(path):
-    # print(path)
+succ = "successes"
+occ = "occurences"
+fp = "falsePositives"
+miss = "misstakes"
 
+with open(f"testResults.json", "r") as resultsFile:
+    r = json.load(resultsFile)
 
-    wave_data = wave.open(path, "rb")
-    frames_count = wave_data.getnframes()
-    data = struct.unpack("<" + str(frames_count) + "h", wave_data.readframes(frames_count))
-    waveform = numpy.zeros(len(data), dtype="float32")
-    
-    for i in range(0, len(data)):
-        waveform[i] = data[i] / 32767
+    silence = []
+    speech = []
+    machine = []
+    whistling = []
+    clapping = []
+    x = []
 
-    waveform = waveform[16000:16000*6+1]
-    result = model(waveform).numpy()[0]
-    result = [str(round(r, 2)) for r in result]
+    for d in r:
+        x.append(int(d))
+        silence.append( r[d]["silence"][succ] / float(r[d]["silence"][occ]) )
+        machine.append( r[d]["machine"][succ] / float(r[d]["machine"][occ]) )
+        speech.append( r[d]["speech"][succ] / float(r[d]["speech"][occ]) )
+        clapping.append( r[d]["clapping"][succ] / float(r[d]["clapping"][occ]) )
+        whistling.append( r[d]["whistling"][succ] / float(r[d]["whistling"][occ]) )
 
-    time = int(len(waveform) / freq)
-    ax = plt.gca()
-    ax.set_ylim([-1.0, 1.0])
-    ax.set_xlim([0, len(waveform)])
-    plt.xticks([t * freq for t in range(time+1)], range(time+1))
-    plt.ylabel("Wartość sygnału")
-    plt.xlabel("Czas [s]")
-    plt.plot(waveform)
+    figureAcc = plt.figure()
+    ax = figureAcc.add_subplot(111)
+    plt.ylabel("Skuteczność klasyfikacji klasy [%]")
+    plt.xlabel("Czas sygnału wejściowego [s]")
+    plt.plot(x, silence, markevery=range(0, len(x)), marker="o")
+    plt.plot(x, machine, markevery=range(0, len(x)), marker="o")
+    plt.plot(x, speech, markevery=range(0, len(x)), marker="o")
+    plt.plot(x, clapping, markevery=range(0, len(x)), marker="o")
+    plt.plot(x, whistling, markevery=range(0, len(x)), marker="o")
+    plt.legend(["cisza", "maszyny", "mowa", "klaskanie", "gwizdanie"], loc="upper right")
+    plt.xticks(x)
+    # ax.text(length-1, valuesAcc[-1]+0.01, round(valuesAcc[-1], 2), ha="center")
+    # ax.text(length, valuesVal[-1]-0.03, round(valuesVal[-1], 2), ha="center")
     plt.show()
 
-    # print(result[0])
-    print()
-    print("{")
-    print(f"  clapping: {result[0]}"), 
-    print(f"  machine: {result[1]}"), 
-    print(f"  silence: {result[2]}"), 
-    print(f"  speech: {result[3]}"), 
-    print(f"  whistling: {result[4]}") 
-    print("}")
-    # print({ "clapping": result[0], "machine": result[1], "silence": result[2], "speech": result[3], "whistling": result[4] })
-    print()
 
-plotData("m_w_short.wav")
+# def plotData(path):
+#     # print(path)
+
+
+#     wave_data = wave.open(path, "rb")
+#     frames_count = wave_data.getnframes()
+#     data = struct.unpack("<" + str(frames_count) + "h", wave_data.readframes(frames_count))
+#     waveform = numpy.zeros(len(data), dtype="float32")
+    
+#     for i in range(0, len(data)):
+#         waveform[i] = data[i] / 32767
+
+#     waveform = waveform[16000:16000*6+1]
+#     result = model(waveform).numpy()[0]
+#     result = [str(round(r, 2)) for r in result]
+
+#     time = int(len(waveform) / freq)
+#     ax = plt.gca()
+#     ax.set_ylim([-1.0, 1.0])
+#     ax.set_xlim([0, len(waveform)])
+#     plt.xticks([t * freq for t in range(time+1)], range(time+1))
+#     plt.ylabel("Wartość sygnału")
+#     plt.xlabel("Czas [s]")
+#     plt.plot(waveform)
+#     plt.show()
+
+#     # print(result[0])
+#     print()
+#     print("{")
+#     print(f"  clapping: {result[0]}"), 
+#     print(f"  machine: {result[1]}"), 
+#     print(f"  silence: {result[2]}"), 
+#     print(f"  speech: {result[3]}"), 
+#     print(f"  whistling: {result[4]}") 
+#     print("}")
+#     # print({ "clapping": result[0], "machine": result[1], "silence": result[2], "speech": result[3], "whistling": result[4] })
+#     print()
+
+# plotData("m_w_short.wav")
 
 # with open(f"models/{modelName}/history.json", "r") as historyFile:
     

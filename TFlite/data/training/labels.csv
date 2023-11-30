@@ -520,3 +520,35 @@ file;labels
 ./data/training/mixed/mch_sp_cp_wh8 (copy).wav;machine,speech,clapping,whistling
 ./data/training/mixed/mch_sp_cp_wh9 (copy).wav;machine,speech,clapping,whistling
 ./data/training/mixed/sil_sp_cp_wh2 (copy).wav;silence,speech,clapping,whistling
+./data/training/mixed/sp_wh.wav;speech,whistling
+./data/training/mixed/sp_wh2.wav;speech,whistling
+./data/training/mixed/sp_wh3.wav;speech,whistling
+./data/training/mixed/sp_wh4.wav;speech,whistling
+./data/training/mixed/sp_cp.wav;speech,clapping
+./data/training/mixed/sp_cp2.wav;speech,clapping
+./data/training/mixed/sp_cp3.wav;speech,clapping
+./data/training/mixed/sp_cp4.wav;speech,clapping
+./data/training/mixed/cp_wh.wav;speech,clapping
+./data/training/mixed/cp_wh2.wav;speech,clapping
+./data/training/mixed/cp_wh3.wav;speech,clapping
+./data/training/mixed/cp_wh4.wav;speech,clapping
+./data/training/mixed/sil_sp_wh.wav;silence,speech,whistling
+./data/training/mixed/sil_sp_wh2.wav;silence,speech,whistling
+./data/training/mixed/sil_sp_wh3.wav;silence,speech,whistling
+./data/training/mixed/sil_sp_wh4.wav;silence,speech,whistling
+./data/training/mixed/sil_wh_cp.wav;silence,clapping,whistling
+./data/training/mixed/sil_wh_cp2.wav;silence,clapping,whistling
+./data/training/mixed/sil_wh_cp3.wav;silence,clapping,whistling
+./data/training/mixed/sil_wh_cp4.wav;silence,clapping,whistling
+./data/training/mixed/mch_sp_cp.wav;machine,speech,clapping
+./data/training/mixed/mch_sp_cp2.wav;machine,speech,clapping
+./data/training/mixed/mch_sp_cp3.wav;machine,speech,clapping
+./data/training/mixed/mch_sp_cp4.wav;machine,speech,clapping
+./data/training/mixed/mch_sp_wh.wav;machine,speech,whistling
+./data/training/mixed/mch_sp_wh2.wav;machine,speech,whistling
+./data/training/mixed/mch_sp_wh3.wav;machine,speech,whistling
+./data/training/mixed/mch_sp_wh4.wav;machine,speech,whistling
+./data/training/mixed/mch_wh_cp.wav;machine,clapping,whistling
+./data/training/mixed/mch_wh_cp2.wav;machine,clapping,whistling
+./data/training/mixed/mch_wh_cp3.wav;machine,clapping,whistling
+./data/training/mixed/mch_wh_cp4.wav;machine,clapping,whistling

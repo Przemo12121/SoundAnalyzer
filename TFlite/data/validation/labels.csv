@@ -140,3 +140,11 @@ file;labels
 ./data/validation/mixed/sil_sp_cp_wh10 (copy).wav;silence,speech,clapping,whistling
 ./data/validation/mixed/mch_sp_cp_wh1 (copy).wav;machine,speech,clapping,whistling
 ./data/validation/mixed/mch_sp_cp_wh10 (copy).wav;machine,speech,clapping,whistling
+./data/validation/mixed/sp_wh5.wav;speech,whistling
+./data/validation/mixed/sp_cp5.wav;speech,clapping
+./data/validation/mixed/cp_wh5.wav;clapping,whistling
+./data/validation/mixed/sil_sp_wh5.wav;silence,speech,whistling
+./data/validation/mixed/sil_wh_cp5.wav;silence,clapping,whistling
+./data/validation/mixed/mch_sp_cp5.wav;machine,clapping,speech
+./data/validation/mixed/mch_sp_wh5.wav;machine,whistling,speech
+./data/validation/mixed/mch_wh_cp5.wav;machine,whistling,clapping

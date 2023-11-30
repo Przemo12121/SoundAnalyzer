@@ -4,6 +4,7 @@ OrangePi_mounted/.*
 Receiver/**/bin/**
 Receiver/**/obj/**
 Receiver/.idea
+TFlite/testDs/*
 **/**/*.wav
 **/**/*.pyc
 **/**/.vscode

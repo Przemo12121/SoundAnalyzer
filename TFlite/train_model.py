@@ -40,10 +40,14 @@ baseModelWrapped = tf.keras.Model(input, net)
 # Creates custom multi-label classification output layers
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(521,)),
+    # tf.keras.layers.Dense(516, activation="relu"),
     tf.keras.layers.Dense(256, activation="relu"),
-    tf.keras.layers.Dropout(0.2),
+    # tf.keras.layers.Dropout(0.1),
+    # tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(64, activation="relu"),
-    tf.keras.layers.Dropout(0.2),
+    # tf.keras.layers.Dense(32, activation="relu"),
+    # tf.keras.layers.Dense(16, activation="relu"),
+    # tf.keras.layers.Dropout(0.1),
     tf.keras.layers.Dense(labelsCount, activation="sigmoid"),
 ])
 # Merges model into single model
@@ -62,7 +66,7 @@ model.summary()
 
 # # Model compilation and training
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
     loss=tf.keras.losses.BinaryCrossentropy(),
     metrics=["accuracy"],
 )
@@ -70,13 +74,13 @@ model.compile(
 history = model.fit(
     trainingDataset,
     validation_data=validationDataset,
-    epochs=100,
-    # callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
-    #     monitor="val_loss",
-    #     factor=0.1,
-    #     patience=5,
-    #     min_lr=1e-10
-    # )],
+    epochs=50,
+    callbacks=[tf.keras.callbacks.ReduceLROnPlateau(
+        monitor="val_loss",
+        factor=0.1,
+        patience=5,
+        min_lr=1e-10
+    )],
     shuffle=True,
     batch_size=1
 )
