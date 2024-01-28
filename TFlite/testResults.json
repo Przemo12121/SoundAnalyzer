@@ -4,39 +4,39 @@
             "occurences": 6,
             "falsePositives": 0,
             "successes": 4,
-            "misstakes": 2
+            "misstakes": 1
         },
         "machine": {
-            "occurences": 4,
+            "occurences": 6,
             "falsePositives": 0,
-            "successes": 4,
+            "successes": 6,
             "misstakes": 0
         },
         "silence": {
             "occurences": 9,
             "falsePositives": 0,
-            "successes": 8,
-            "misstakes": 1
+            "successes": 7,
+            "misstakes": 0
         },
         "speech": {
-            "occurences": 7,
-            "falsePositives": 1,
+            "occurences": 8,
+            "falsePositives": 0,
             "successes": 5,
-            "misstakes": 2
+            "misstakes": 1
         },
         "whistling": {
-            "occurences": 6,
-            "falsePositives": 1,
-            "successes": 6,
-            "misstakes": 0
+            "occurences": 7,
+            "falsePositives": 0,
+            "successes": 5,
+            "misstakes": 1
         }
     },
     "10": {
         "clapping": {
             "occurences": 6,
             "falsePositives": 0,
-            "successes": 5,
-            "misstakes": 1
+            "successes": 4,
+            "misstakes": 2
         },
         "machine": {
             "occurences": 4,
@@ -51,24 +51,24 @@
             "misstakes": 1
         },
         "speech": {
-            "occurences": 7,
-            "falsePositives": 0,
-            "successes": 4,
-            "misstakes": 3
-        },
-        "whistling": {
-            "occurences": 6,
+            "occurences": 8,
             "falsePositives": 1,
             "successes": 5,
-            "misstakes": 1
+            "misstakes": 2
+        },
+        "whistling": {
+            "occurences": 7,
+            "falsePositives": 1,
+            "successes": 5,
+            "misstakes": 2
         }
     },
     "15": {
         "clapping": {
             "occurences": 6,
-            "falsePositives": 1,
-            "successes": 6,
-            "misstakes": 0
+            "falsePositives": 0,
+            "successes": 4,
+            "misstakes": 2
         },
         "machine": {
             "occurences": 4,
@@ -78,28 +78,28 @@
         },
         "silence": {
             "occurences": 9,
-            "falsePositives": 1,
+            "falsePositives": 0,
             "successes": 8,
-            "misstakes": 1
+            "misstakes": 3
         },
         "speech": {
             "occurences": 7,
-            "falsePositives": 1,
-            "successes": 5,
-            "misstakes": 2
+            "falsePositives": 3,
+            "successes": 4,
+            "misstakes": 3
         },
         "whistling": {
-            "occurences": 6,
-            "falsePositives": 0,
-            "successes": 4,
-            "misstakes": 2
+            "occurences": 5,
+            "falsePositives": 1,
+            "successes": 3,
+            "misstakes": 0
         }
     },
     "20": {
         "clapping": {
             "occurences": 6,
             "falsePositives": 0,
-            "successes": 4,
+            "successes": 3,
             "misstakes": 2
         },
         "machine": {
@@ -111,28 +111,28 @@
         "silence": {
             "occurences": 9,
             "falsePositives": 0,
-            "successes": 7,
-            "misstakes": 2
+            "successes": 8,
+            "misstakes": 1
         },
         "speech": {
-            "occurences": 7,
-            "falsePositives": 0,
-            "successes": 4,
-            "misstakes": 3
+            "occurences": 8,
+            "falsePositives": 2,
+            "successes": 3,
+            "misstakes": 4
         },
         "whistling": {
             "occurences": 6,
             "falsePositives": 1,
-            "successes": 5,
+            "successes": 3,
             "misstakes": 1
         }
     },
     "25": {
         "clapping": {
-            "occurences": 6,
-            "falsePositives": 1,
-            "successes": 5,
-            "misstakes": 1
+            "occurences": 8,
+            "falsePositives": 0,
+            "successes": 3,
+            "misstakes": 0
         },
         "machine": {
             "occurences": 4,
@@ -141,22 +141,22 @@
             "misstakes": 0
         },
         "silence": {
-            "occurences": 9,
-            "falsePositives": 1,
-            "successes": 9,
-            "misstakes": 0
+            "occurences": 10,
+            "falsePositives": 0,
+            "successes": 10,
+            "misstakes": 2
         },
         "speech": {
             "occurences": 8,
-            "falsePositives": 0,
-            "successes": 7,
-            "misstakes": 1
+            "falsePositives": 3,
+            "successes": 2,
+            "misstakes": 6
         },
         "whistling": {
             "occurences": 6,
             "falsePositives": 1,
-            "successes": 4,
-            "misstakes": 2
+            "successes": 2,
+            "misstakes": 0
         }
     }
 }

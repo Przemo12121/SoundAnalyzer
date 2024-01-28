@@ -3,7 +3,7 @@ import tensorflow_hub as hub
 import wave, struct, numpy
 
 
-pathToModel = "./models/sound_analyzer_v2"
+pathToModel = "./models/sa_v7"
 model = tf.saved_model.load(pathToModel)
 import json
 
@@ -160,25 +160,33 @@ test([
     ["testDs/25_mch_sp_cp_wh.wav", ["machine", "speech",  "whistling", "clapping"]],
 ])
 
-# with open("testResults.json", "w+") as file:
-#     json.dump(results, file)
+with open("testResults.json", "w+") as file:
+    json.dump(results, file)
 
-data, _ = getData("testDs/5_mch_cp.wav")
+occ_r_a = 0
+fp_r_a = 0
+s_r_a = 0
+for d in durations:
+    print("### ", d, " ###")
+    for l in labels:
+        # if l == "silence":
+        #     continue
+        fp_r = results[d][l][fp]
+        # print(fp_r)
+        occ_r = results[d][l][occ]
+        s_r = results[d][l][succ]
+        print("-> ", l, ": ", s_r / float(occ_r), " fp: ", fp_r / float(occ_r))
+        occ_r_a += occ_r
+        s_r_a += s_r
+
+print(s_r_a / float(occ_r_a))
+print(fp_r_a / float(occ_r_a))
+
+
+data, _ = getData("data/training/mixed/mch_sp_cp_wh2.wav")
+print(model(data))
+data, _ = getData("testDs/10_mch_sp_cp_wh.wav")
+print(model(data))
+data, _ = getData("testDs/10_sil_sp_cp_wh.wav")
 print(model(data))
 
-# occ_r_a = 0
-# s_r_a = 0
-# for d in durations:
-#     print("### ", d, " ###")
-#     for l in labels:
-#         # if l == "silence":
-#         #     continue
-#         # fp_r = results[d][l][fp]
-#         # print(fp_r)
-#         occ_r = results[d][l][occ]
-#         s_r = results[d][l][succ]
-#         print("-> ", l, ": ", s_r / float(occ_r))
-#         occ_r_a += occ_r
-#         s_r_a += s_r
-
-# print(s_r_a / float(occ_r_a))

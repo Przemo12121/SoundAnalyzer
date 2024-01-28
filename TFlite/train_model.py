@@ -51,22 +51,21 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(labelsCount, activation="sigmoid"),
 ])
 # Merges model into single model
-def narrowOutput(output):
-    return tf.reshape(tf.reduce_mean(output[0], axis=0), (1,521))
 
 outputNarrowed = tf.reshape(
-    tf.reduce_max(baseModelWrapped.output[0], axis=0),
+    tf.reduce_mean(baseModelWrapped.output[0], axis=0),
     (1,521))
+# outputNarrowed = tf.reduce_mean(baseModelWrapped.output[0], axis=0)[1]
 output = model(outputNarrowed)
 model = tf.keras.Model(baseModelWrapped.input, output)
 model.summary()
-
+# output.summary()
 # print(len(trainingDataset))
 # print(len(validationDataset))
 
 # # Model compilation and training
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-2),
     loss=tf.keras.losses.BinaryCrossentropy(),
     metrics=["accuracy"],
 )
@@ -79,7 +78,7 @@ history = model.fit(
         monitor="val_loss",
         factor=0.1,
         patience=5,
-        min_lr=1e-10
+        min_lr=1e-20
     )],
     shuffle=True,
     batch_size=1
@@ -87,7 +86,7 @@ history = model.fit(
 if "lr" in history.history:
     history.history.pop("lr")
 
-# # Saves tensorflow model and classes
+# # # Saves tensorflow model and classes
 model.save(f"models/{modelName}")
 with (
     open(f"models/{modelName}/classes.csv", "w+") as classesFile,
@@ -105,7 +104,7 @@ with (
     classesFile.write(lines)
     outputClassesFile.write(lines)
 
-# Covnerts to .tflite format
-with open(f"output/{modelName}.tflite", "wb") as file:
-    file.write(
-        tf.lite.TFLiteConverter.from_saved_model(f"./models/{modelName}").convert())
+# # Covnerts to .tflite format
+# with open(f"output/{modelName}.tflite", "wb") as file:
+#     file.write(
+#         tf.lite.TFLiteConverter.from_saved_model(f"./models/{modelName}").convert())
